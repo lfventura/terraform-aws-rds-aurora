@@ -3,6 +3,11 @@
 
 
 
+<a name="v2.2.2"></a>
+## [v2.2.2] - 2019-08-09
+
+- Create SG only if needed
+
 <a name="v2.2.1"></a>
 ## [v2.2.1] - 2019-08-09
 
@@ -167,7 +172,8 @@
 - Initial commit
 
 
-[Unreleased]: https://github.com/lfventura/terraform-aws-rds-aurora/compare/v2.2.1...HEAD
+[Unreleased]: https://github.com/lfventura/terraform-aws-rds-aurora/compare/v2.2.2...HEAD
+[v2.2.2]: https://github.com/lfventura/terraform-aws-rds-aurora/compare/v2.2.1...v2.2.2
 [v2.2.1]: https://github.com/lfventura/terraform-aws-rds-aurora/compare/v2.2.0...v2.2.1
 [v2.2.0]: https://github.com/lfventura/terraform-aws-rds-aurora/compare/v1.15.0...v2.2.0
 [v1.15.0]: https://github.com/lfventura/terraform-aws-rds-aurora/compare/v2.1.0...v1.15.0
