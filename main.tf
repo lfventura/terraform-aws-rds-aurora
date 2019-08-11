@@ -10,6 +10,7 @@ resource "random_id" "master_password" {
 }
 
 resource "aws_db_subnet_group" "this" {
+  count = var.db_subnet_group_name != null ? 0 : 1
   name        = var.name
   description = "For Aurora cluster ${var.name}"
   subnet_ids  = var.subnets
@@ -39,7 +40,7 @@ resource "aws_rds_cluster" "this" {
   preferred_backup_window             = var.preferred_backup_window
   preferred_maintenance_window        = var.preferred_maintenance_window
   port                                = local.port
-  db_subnet_group_name                = aws_db_subnet_group.this.name
+  db_subnet_group_name                = var.db_subnet_group_name != null ? var.db_subnet_group_name : aws_db_subnet_group.this[0].name
   vpc_security_group_ids              = local.this_sg
   snapshot_identifier                 = var.snapshot_identifier
   storage_encrypted                   = var.storage_encrypted
@@ -65,7 +66,7 @@ resource "aws_rds_cluster_instance" "this" {
   engine_version                  = var.engine_version
   instance_class                  = count.index > 0 ? local.instance_type_replica : var.instance_type
   publicly_accessible             = var.publicly_accessible
-  db_subnet_group_name            = aws_db_subnet_group.this.name
+  db_subnet_group_name            = var.db_subnet_group_name != null ? var.db_subnet_group_name : aws_db_subnet_group.this[0].name
   db_parameter_group_name         = var.db_parameter_group_name
   preferred_maintenance_window    = var.preferred_maintenance_window
   apply_immediately               = var.apply_immediately
@@ -145,7 +146,7 @@ resource "aws_appautoscaling_policy" "autoscaling_read_replica_count" {
 }
 
 resource "aws_security_group" "this" {
-  count = var.allowed_security_groups_count > 0 ? 1 : 0 
+  count = var.allowed_security_groups_count > 0 ? 1 : 0
   name_prefix = "${var.name}-"
   vpc_id      = var.vpc_id
 
